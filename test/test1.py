@@ -1,7 +1,7 @@
 from grayImage import GrayImage
 from grayCode import GrayCode
 
-image = GrayImage.get_gray_image('./image.jpeg')
+image = GrayImage.get_gray_image('./imgs/image.jpeg')
 # 只转格雷码
 GrayImage.show_image_by_numpy(image)
 image = GrayCode.encode_numpy(image)

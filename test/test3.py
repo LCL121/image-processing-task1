@@ -10,10 +10,10 @@ def main(path):
     print(image.shape)
     for i in range(len(image)):
         GrayImage.show_image_by_numpy(image[i])
-        cv2.imwrite('./{}.jpeg'.format(i), image[i])
+        cv2.imwrite('./imgs/{}.jpeg'.format(i), image[i])
     image = GrayCode.decode_numpy8(image)
     print(image.shape)
     GrayImage.show_image_by_numpy(image)
 
 
-main('./datasets/Urban100/image_SRF_2/img_001_SRF_2_HR.png')
+main('../datasets/Urban100/image_SRF_2/img_001_SRF_2_HR.png')
