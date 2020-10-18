@@ -44,8 +44,9 @@ class OperateLmdbData:
         with env.begin() as txn:
             for key, value in txn.cursor():
                 value = pickle.loads(value)
+                print(value.shape)
+                for i in value:
+                    GrayImage.show_image_by_numpy_float(i)
                 value = GrayCode.decode_numpy8(value)
                 print(key)
                 GrayImage.show_image_by_numpy(value)
-                # for i in value:
-                #     GrayImage.show_image_by_numpy_float(i)
