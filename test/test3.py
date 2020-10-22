@@ -16,4 +16,4 @@ def main(path):
     GrayImage.show_image_by_numpy(image)
 
 
-main('../datasets/Urban100/image_SRF_2/img_001_SRF_2_HR.png')
+main('../dataset/DIV2K/DIV2K_train_HR/0001.png')
