@@ -29,8 +29,10 @@ for datasets_item in datasets_list:
         image_path = '{}/dataset/{}/{}'.format(current_path, datasets_item, image)
         info = pattern.findall(image)[0]
         key = '{}_{}'.format(datasets_item, info)
-        image = GrayImage.get_gray_image(image_path)
+        # image = GrayImage.get_gray_image(image_path)
+        image = GrayImage.get_y_channel_image(image_path)
         # GrayImage.show_image_by_numpy(image)
+        GrayImage.show_image_by_numpy(image)
         images = GrayCode.encode_numpy28(image)
 
         # images_shape = images.shape
@@ -43,3 +45,4 @@ for datasets_item in datasets_list:
         print('size of numpy: {}'.format(sys.getsizeof(images)))
         print('size of pickle: {}'.format(sys.getsizeof(images_pickle)))
         OperateLmdbData.save_lmd_data(key, images_pickle, './lmdb_database')
+
