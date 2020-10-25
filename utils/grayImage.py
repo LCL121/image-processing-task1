@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.image as mpimg
+from PIL import Image
 
 
 class GrayImage:
@@ -17,11 +18,21 @@ class GrayImage:
         cv2.destroyAllWindows()
 
     @staticmethod
+    def save_image(path, image):
+        cv2.imwrite(path, image)
+
+    @staticmethod
     def show_image_by_numpy_float(nums):
         nums = np.array(nums, np.float)
         cv2.imshow('image', nums)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+    @staticmethod
+    def get_image(path):
+        image = Image.open(path)
+        image = np.array(image)
+        return image
 
     @staticmethod
     def get_gray_image(img):

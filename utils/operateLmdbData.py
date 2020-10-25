@@ -23,30 +23,31 @@ class OperateLmdbData:
     def save_lmd_data(key, value, lmdb_path):
         env = lmdb.open(lmdb_path, map_size=map_size)
         txn = env.begin(write=True)
-        txn.put(str(key).encode(), value)
+        txn.put(str(key).encode(), json.dumps(value).encode())
         txn.commit()
 
     @staticmethod
-    def get_lmd_data_images(key,lmdb_path):
+    def get_lmdb_data_images(key,lmdb_path):
         env = lmdb.open(lmdb_path, map_size=map_size)
         with env.begin() as txn:
             return pickle.loads(txn.get(str(key).encode()))
 
     @staticmethod
-    def get_lmd_data_keys_name(lmdb_path):
+    def get_lmdb_data_keys_name(lmdb_path):
         env = lmdb.open(lmdb_path, map_size=map_size)
         with env.begin() as txn:
-            return json.loads(txn.get(str('keys_name').encode()).decode())
+            return json.loads(txn.get(str('keys_list').encode()).decode())
+
+    @staticmethod
+    def get_lmdb_value(key, lmdb_path):
+        env = lmdb.open(lmdb_path, map_size=map_size)
+        with env.begin() as txn:
+            return json.loads(txn.get(str(key).encode()).decode())
 
     @staticmethod
     def show_lmd_data(lmdb_path):
         env = lmdb.open(lmdb_path, map_size=map_size)
         with env.begin() as txn:
             for key, value in txn.cursor():
-                value = pickle.loads(value)
-                print(value.shape)
-                for i in value:
-                    GrayImage.show_image_by_numpy_float(i)
-                value = GrayCode.decode_numpy8(value)
-                print(key)
-                GrayImage.show_image_by_numpy(value)
+                value = json.loads(value.decode())
+                print(key, value, type(value))
