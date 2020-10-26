@@ -22,7 +22,7 @@ import cv2
 current_path = os.getcwd()
 pattern = re.compile(r'(.*)\.png')
 datasets_list = os.listdir('{}/dataset/DIV2K'.format(current_path))
-keys_name = []
+keys_list = []
 
 for datasets_item in datasets_list:
     print('start run {}'.format(datasets_item))
@@ -35,34 +35,48 @@ for datasets_item in datasets_list:
                 image_path = '{}/dataset/DIV2K/{}/{}/{}'.format(current_path, datasets_item, item, image_item)
                 print(image_path)
                 info = pattern.findall(image_item)[0]
-                key = '{}'.format(info)
+                key = 'DIV2K_{}'.format(info)
                 image = GrayImage.get_y_channel_image(image_path)
                 # GrayImage.show_image_by_numpy(image)
                 images = GrayCode.encode_numpy28(image)
 
-                images_pickle = pickle.dumps(images)
-                print(key)
-                print('size of numpy: {}'.format(sys.getsizeof(images)))
-                print('size of pickle: {}'.format(sys.getsizeof(images_pickle)))
+                image_path_list = list()
 
-                OperateLmdbData.save_lmd_data(key, images_pickle, './lmdb_database_DIV2K')
+                for idx in range(len(images)):
+                    filePath = '{}/lmdb_images_DIV2K/{}'.format(current_path, info)
+                    if not os.path.exists(filePath):
+                        os.makedirs(filePath)
+                    fileName = '{}/{}.png'.format(filePath, idx)
+                    print(fileName)
+                    GrayImage.save_image(fileName, images[idx])
+                    image_path_list.append(fileName)
+
+                    OperateLmdbData.save_lmd_data(key, image_path_list, './lmdb_database_DIV2K')
+
+                keys_list.append(key)
         else:
             info = pattern.findall(item)[0]
-            key = '{}'.format(info)
+            key = 'DIV2K_{}'.format(info)
             image_path = '{}/dataset/DIV2K/{}/{}'.format(current_path, datasets_item, item)
+            print(image_path)
             img = cv2.imread(image_path)
 
             image = GrayImage.get_y_channel_image(image_path)
             # GrayImage.show_image_by_numpy(image)
             images = GrayCode.encode_numpy28(image)
 
-            keys_name.append(key)
+            image_path_list = list()
 
-            images_pickle = pickle.dumps(images)
-            print(key)
-            print('size of numpy: {}'.format(sys.getsizeof(images)))
-            print('size of pickle: {}'.format(sys.getsizeof(images_pickle)))
+            for idx in range(len(images)):
+                filePath = '{}/lmdb_images_DIV2K/{}'.format(current_path, info)
+                if not os.path.exists(filePath):
+                    os.makedirs(filePath)
+                fileName = '{}/{}.png'.format(filePath, idx)
+                print(fileName)
+                GrayImage.save_image(fileName, images[idx])
+                image_path_list.append(fileName)
 
-            OperateLmdbData.save_lmd_data(key, images_pickle, './lmdb_database_DIV2K')
+                OperateLmdbData.save_lmd_data(key, image_path_list, './lmdb_database_DIV2K')
+            keys_list.append(key)
 
-OperateLmdbData.save_lmd_data('keys_name', json.dumps(list(keys_name)).encode(), './lmdb_database_DIV2K')
+OperateLmdbData.save_lmd_data('keys_list', keys_list, './lmdb_database_DIV2K')

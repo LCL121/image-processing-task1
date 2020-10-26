@@ -86,3 +86,15 @@ class GrayImage:
 
         return ima_ycbcr
 
+    @staticmethod
+    def get_image_by_8_images_path(image_path_list):
+        images = None
+        for i in range(len(image_path_list)):
+            image = GrayImage.get_image(image_path_list[i])
+            if images is None:
+                images = np.empty([8, image.shape[0], image.shape[1]])
+                images[i] = image
+            else:
+                images[i] = image
+        return images
+
