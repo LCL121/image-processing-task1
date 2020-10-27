@@ -5,13 +5,9 @@ class ChangeShape:
     @staticmethod
     def change_shape(numpy):
         [a, b, c] = numpy.shape
-        numpy2 = numpy.reshape(a * b * c)
-        new_numpy = np.empty([c, a * b])
-        for i in range(len(numpy2)):
-            quotients = int(i / c)
-            remainders = i % c
-            new_numpy[remainders][quotients] = numpy2[i]
-        new_numpy = new_numpy.reshape(c, a, b)
+        new_numpy = np.empty([c, a, b])
+        for i in range(8):
+            new_numpy[i] = numpy[:, :, i]
         return new_numpy
 
     @staticmethod

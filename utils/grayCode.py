@@ -1,7 +1,6 @@
 import numpy as np
 from changeShape import ChangeShape
 
-
 class GrayCode:
 
     @staticmethod
@@ -107,7 +106,7 @@ class GrayCode:
         """
 
         :param numpy: rows * cols uint8
-        :return: rows * cols * 8
+        :return: 8 * rows * cols
         """
         [rows, cols] = numpy.shape
         new_numpy = np.empty([rows, cols, 8], dtype=np.uint8)
